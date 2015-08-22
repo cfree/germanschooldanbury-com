@@ -16,7 +16,7 @@
 
 			<div class="site-info">
 				<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/GermanSchoolLogo-footer.jpg" alt="<?php _e( 'German Language School of Danbury', 'twentythirteen' ); ?>">
-				<p><?php printf( __( 'Copyright %s German Language School Danbury', 'twentythirteen' ), date( 'Y' ) ); ?></a></p>
+				<p><?php printf( __( 'Copyright %s', 'twentythirteen' ), date( 'Y' ) ); ?></a></p>
 			</div><!-- .site-info -->
 		</footer><!-- #colophon -->
 	</div><!-- #page -->
