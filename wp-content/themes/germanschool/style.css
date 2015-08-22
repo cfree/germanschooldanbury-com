@@ -3,7 +3,7 @@ Theme Name: German School Danbury
 Theme URI: http://germanschooldanbury.com/
 Author: Craig Freeman
 Author URI: http://craigfreeman.net
-Description: Theme for German School Danbury
+Description: Child Theme of Twenty Thirteen for German School Danbury
 Version: 1.0.0
 Template: twentythirteen
 License: GNU General Public License v2 or later
@@ -25,3 +25,4 @@ Theme styles found in assets/sass/
 */
 
 @import url("../twentythirteen/style.css");  
+
