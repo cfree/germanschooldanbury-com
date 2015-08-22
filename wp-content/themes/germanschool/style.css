@@ -26,3 +26,20 @@ Theme styles found in assets/sass/
 
 @import url("../twentythirteen/style.css");  
 
+.site-title {
+	font-size: 54px;
+}
+
+@media (max-width: 767px) {
+	.site-title {
+		font-size: 36px;
+	}
+}
+
+@media (max-width: 643px) {
+	.site-title {
+		font-size: 30px;
+	}
+}
+
+
