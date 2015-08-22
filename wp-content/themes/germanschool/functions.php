@@ -70,12 +70,6 @@ function gsd_setup() {
 		'quote',
 		'link',
 	) );
-
-	// Set up the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'gsd_custom_background_args', array(
-		'default-color' => 'ffffff',
-		'default-image' => '',
-	) ) );
 }
 endif; // _s_setup
 add_action( 'after_setup_theme', 'gsd_setup' );
@@ -87,7 +81,7 @@ add_action( 'after_setup_theme', 'gsd_setup' );
  *
  * @global int $content_width
  */
-function _s_content_width() {
+function gsd_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'gsd_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'gsd_content_width', 0 );
@@ -97,7 +91,7 @@ add_action( 'after_setup_theme', 'gsd_content_width', 0 );
  *
  * @link http://codex.wordpress.org/Function_Reference/register_sidebar
  */
-function _s_widgets_init() {
+function gsd_widgets_init() {
 	register_sidebar( array(
 		'name'          => esc_html__( 'Sidebar', 'gsd' ),
 		'id'            => 'sidebar-1',
@@ -113,7 +107,7 @@ add_action( 'widgets_init', 'gsd_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
-function _s_scripts() {
+function gsd_scripts() {
 	wp_enqueue_script( 'modernizr', get_template_directory_uri() . '/assets/vendor/modernizr/modernizr.js', array(), '2.8.3', false );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -128,16 +122,81 @@ function _s_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'gsd_scripts' );
+// add_action( 'wp_enqueue_scripts', 'gsd_scripts' );
 
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
 
-/**
- * Custom functions that act independently of the theme templates.
- */
-require get_template_directory() . '/inc/extras.php';
+
+// in your Child Theme's functions.php   
+// Use the after_setup_theme hook with a priority of 11 to load after the
+// parent theme, which will fire on the default priority of 10
+ 
+// Remove meta generator (WP version) from site and feed
+if ( ! function_exists( 'mywp_remove_version' ) ) {
+	 
+	function mywp_remove_version() {
+			return '';
+	}
+	add_filter('the_generator', 'mywp_remove_version');
+}
+ 
+// Clean header from unneeded links
+if ( ! function_exists( 'mywp_head_cleanup' ) ) {
+ 
+	function mywp_head_cleanup() {
+		remove_action('wp_head', 'feed_links', 2);  // Remove Post and Comment Feeds
+		remove_action('wp_head', 'feed_links_extra', 3);  // Remove category feeds
+		remove_action('wp_head', 'rsd_link'); // Disable link to Really Simple Discovery service
+		remove_action('wp_head', 'wlwmanifest_link'); // Remove link to the Windows Live Writer manifest file.
+		/*remove_action( 'wp_head', 'index_rel_link' ); */ // canonic link
+		remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
+		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
+		remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);  // Remove relation links for the posts adjacent to the current post.
+		remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+
+		global $wp_widget_factory;
+		remove_action('wp_head', array($wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style'));
+		add_filter('use_default_gallery_style', '__return_null');
+	}
+
+	add_action('init', 'mywp_head_cleanup');
+}
+ 
+// Add Header and Extra Widget Area 
+if ( ! function_exists( 'custom_sidebar' ) ) {
+ 
+	// Register Sidebar
+	function custom_sidebar() {
+	 
+		$args = array(
+			'id'            => 'sidebarheader',
+			'name'          => __( 'Header Widget', 'twentythirteen' ),
+			'description'   => __( 'Header widget area for my child theme.', 'twentythirteen' ),
+			'class'         => 'sidebarheader',
+			'before_title'  => '<h2 class="widgettitle">',
+			'after_title'   => '</h2>',
+			'before_widget' => '<li id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</li>',
+		);
+		register_sidebar( $args );
+	 
+	        $args = array(
+			'id'            => 'sidebarextra',
+			'name'          => __( 'Extra Widget', 'twentythirteen' ),
+			'description'   => __( 'Extra widget area for my child theme.', 'twentythirteen' ),
+			'class'         => 'sidebarextra',
+			'before_title'  => '<h2 class="widgettitle">',
+			'after_title'   => '</h2>',
+			'before_widget' => '<li id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</li>',
+		);
+		register_sidebar( $args );
+	 
+	}
+	 
+	// Hook into the 'widgets_init' action
+	add_action( 'widgets_init', 'custom_sidebar' );
+
+}
+
 
 

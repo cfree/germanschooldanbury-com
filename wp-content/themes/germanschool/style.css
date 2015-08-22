@@ -5,11 +5,12 @@ Author: Craig Freeman
 Author URI: http://craigfreeman.net
 Description: Theme for German School Danbury
 Version: 1.0.0
+Template: twentythirteen
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: gsd
 Tags:
-Template: twentythirteen
+
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -22,3 +23,5 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 
 Theme styles found in assets/sass/
 */
+
+@import url("../twentythirteen/style.css");  
