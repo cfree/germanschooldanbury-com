@@ -42,4 +42,41 @@ Theme styles found in assets/sass/
 	}
 }
 
+.site-description {
+	font-weight: bold;
+}
+
+@media (max-width: 450px) {
+	.site-description {
+		font-size: 20px;
+		line-height: 1.4;
+	}
+}
+
+.entry-title {
+	font-family: 'Germania One', cursive;
+	text-align: center; 
+}
+
+@media (max-width: 450px) {
+	.entry-title {
+		font-family: 'Germania One', cursive;
+		text-align: left; 
+	}
+}
+
+.button {
+	display: inline-block;
+	margin: 20px auto;
+	background: #ED3101;
+	padding: 10px 20px 8px;
+	color: #fff !important;
+	text-align: center;
+	transition: background 0.2s;
+}
+
+.button:hover {
+	background: #bc360a;
+	text-decoration: none;
+}
 
